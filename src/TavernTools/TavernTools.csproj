@@ -13,4 +13,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts\Contracts.csproj" />
+      <ProjectReference Include="..\GuildStashCore\GuildStashCore.csproj" />
+    </ItemGroup>
+
 </Project>

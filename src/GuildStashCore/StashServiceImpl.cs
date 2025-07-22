@@ -13,6 +13,13 @@ public class StashServiceImpl : StashService
 
     public List<SeparateItem> CurrentStash()
     {
-        return new List<SeparateItem>();
+        return _repository
+            .ReadAllItems()
+            .Select(itemData => new SeparateItem
+            {
+                ItemName = itemData.ItemName,
+                Reference = itemData.BookReference
+            })
+            .ToList();
     }
 }
