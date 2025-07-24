@@ -1,4 +1,5 @@
 using GuildStashCore;
+using PeristanceSupabase;
 using TavernTools.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,9 @@ builder.Services
     .AddInteractiveServerComponents();
 
 builder.Services
-    .AddGuildStashCore();
+    .AddGuildStashCore()
+    .AddSupabaseDb(builder.Configuration)
+    ;
 
 var app = builder.Build();
 
@@ -19,6 +22,11 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    PeristanceSupabase.DependencyInjection.MigrateDb(scope.ServiceProvider);
 }
 
 app.UseHttpsRedirection();
