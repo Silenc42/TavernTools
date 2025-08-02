@@ -27,7 +27,14 @@ if (!app.Environment.IsDevelopment())
 
 using (IServiceScope scope = app.Services.CreateScope())
 {
-    DependencyInjection.MigrateDb(scope.ServiceProvider);
+    try
+    {
+        DependencyInjection.MigrateDb(scope.ServiceProvider);
+    }
+    catch (Exception ex)
+    {
+        throw new Exception("Database migration failed", ex);
+    }
 }
 
 app.UseHttpsRedirection();
