@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 USER $APP_UID
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Development
 WORKDIR /src
 COPY ["TavernTools/TavernTools.csproj", "TavernTools/"]
 COPY ["Contracts/Contracts.csproj", "Contracts/"]
