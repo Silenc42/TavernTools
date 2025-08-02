@@ -26,4 +26,8 @@ RUN dotnet publish "./TavernTools.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Disable IPv6 in .NET sockets to force IPv4 usage -- supabase needs this apparently
+ENV DOTNET_SYSTEM_NET_SOCKETS_IPV6_ENABLED=false
+
 ENTRYPOINT ["dotnet", "TavernTools.dll"]
