@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildStashCore", "GuildStas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildStashCoreTests", "GuildStashCoreTests\GuildStashCoreTests.csproj", "{63C81102-F5AD-47AB-B686-F58B3052CC28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeristanceSupabase", "PeristanceSupabase\PeristanceSupabase.csproj", "{A425EF33-5D43-482B-A5DF-A56CF0EAECEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistenceSupabase", "PersistenceSupabase\PersistenceSupabase.csproj", "{A425EF33-5D43-482B-A5DF-A56CF0EAECEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

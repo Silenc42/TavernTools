@@ -1,8 +1,8 @@
 ﻿using Contracts.GuildStash;
 
-namespace PeristanceSupabase;
+namespace PersistenceSupabase;
 
-public class StashRepositoryImpl:StashRepository
+public class StashRepositoryImpl : StashRepository
 {
     public List<SeparateItemData> ReadAllItems()
     {

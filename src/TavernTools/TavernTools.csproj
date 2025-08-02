@@ -16,7 +16,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Contracts\Contracts.csproj" />
       <ProjectReference Include="..\GuildStashCore\GuildStashCore.csproj" />
-      <ProjectReference Include="..\PeristanceSupabase\PeristanceSupabase.csproj" />
+      <ProjectReference Include="..\PersistenceSupabase\PersistenceSupabase.csproj" />
     </ItemGroup>
 
 </Project>

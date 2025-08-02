@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PeristanceSupabase;
+namespace PersistenceSupabase;
 
 public static class DependencyInjection
 {

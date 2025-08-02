@@ -1,4 +1,4 @@
-namespace PeristanceSupabase;
+namespace PersistenceSupabase;
 
 public class PocEntity
 {

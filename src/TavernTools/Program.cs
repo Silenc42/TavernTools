@@ -1,6 +1,7 @@
 using GuildStashCore;
-using PeristanceSupabase;
+using PersistenceSupabase;
 using TavernTools.Components;
+using DependencyInjection = PersistenceSupabase.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,7 @@ if (!app.Environment.IsDevelopment())
 
 using (IServiceScope scope = app.Services.CreateScope())
 {
-    PeristanceSupabase.DependencyInjection.MigrateDb(scope.ServiceProvider);
+    DependencyInjection.MigrateDb(scope.ServiceProvider);
 }
 
 app.UseHttpsRedirection();

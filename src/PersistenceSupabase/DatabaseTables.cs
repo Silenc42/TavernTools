@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace PeristanceSupabase;
+namespace PersistenceSupabase;
 
 public class DatabaseTables : DbContext
 {
