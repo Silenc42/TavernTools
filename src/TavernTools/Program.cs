@@ -25,17 +25,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// using (IServiceScope scope = app.Services.CreateScope())
-// {
-//     try
-//     {
-//         DependencyInjection.MigrateDb(scope.ServiceProvider);
-//     }
-//     catch (Exception ex)
-//     {
-//         throw new Exception("Database migration failed", ex);
-//     }
-// }
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    try
+    {
+        DependencyInjection.MigrateDb(scope.ServiceProvider);
+    }
+    catch (Exception ex)
+    {
+        throw new Exception("Database migration failed", ex);
+    }
+}
 
 app.UseHttpsRedirection();
 
