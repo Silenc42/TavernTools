@@ -7,9 +7,9 @@ public class DesignDbContextFactory : IDesignTimeDbContextFactory<DatabaseTables
 {
     public DatabaseTables CreateDbContext(string[] args)
     {
-
+        const string dummyConnection = "Host=localhost;Database=FakeDb;Username=postgres;Password=placeholder;";
         var options = new DbContextOptionsBuilder<DatabaseTables>()
-            .UseNpgsql("Host=localhost;Database=FakeDb;Username=postgres;Password=placeholder;")
+            .UseNpgsql(dummyConnection)
             .Options;
 
         return new DatabaseTables(options);
