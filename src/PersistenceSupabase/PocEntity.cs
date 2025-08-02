@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PersistenceSupabase;
 
 public class PocEntity
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public required Guid Id { get; init; }
+    
+    [MaxLength(128)]
+    public required string Name { get; init; }
 }
