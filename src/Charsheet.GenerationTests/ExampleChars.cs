@@ -2,7 +2,7 @@
 using Charsheet.CommonModel;
 using Charsheet.PdfGeneration.PrintModel;
 
-namespace Charsheet.Charbuilder;
+namespace Charsheet.GenerationTests;
 
 public static class ExampleChars
 {
