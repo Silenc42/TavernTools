@@ -5,7 +5,7 @@ using Charsheet.PdfGeneration.PrintModel;
 
 namespace Charsheet.Charbuilder;
 
-public class CharBuilderMain(PdfToFilePrinter filePrinter, ToPrintConverter toPrintConverter)
+public class CharBuilderMain(PdfPrinter filePrinter, ToPrintConverter toPrintConverter)
 {
     public void SaveCharToFile(CharacterData charData, string filepath, CharSheetOptions opt)
     {

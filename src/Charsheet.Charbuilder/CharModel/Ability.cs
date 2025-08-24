@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
 using Charsheet.CommonModel;
 
 namespace Charsheet.Charbuilder.CharModel;
 
+[JsonDerivedType(typeof(ActiveAbility), "ActiveAbility")]
+[JsonDerivedType(typeof(PassiveAbility), "PassiveAbility")]
 public abstract class Ability
 {
     public required string Title { get; init; }

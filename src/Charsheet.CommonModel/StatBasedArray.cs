@@ -1,14 +1,17 @@
-﻿namespace Charsheet.CommonModel;
+﻿using System.Text.Json.Serialization;
+
+namespace Charsheet.CommonModel;
 
 public class StatBasedArray
 {
-    private readonly int? _strength;
-    private readonly int? _dexterity;
-    private readonly int? _constitution;
-    private readonly int? _intelligence;
-    private readonly int? _wisdom;
-    private readonly int? _charisma;
+    public int? Strength { get;}
+    public int? Dexterity { get;}
+    public int? Constitution { get;}
+    public int? Intelligence { get;}
+    public int? Wisdom { get;}
+    public int? Charisma { get;}
 
+    [JsonConstructor]
     public StatBasedArray(int? strength = null,
         int? dexterity = null,
         int? constitution = null,
@@ -16,35 +19,35 @@ public class StatBasedArray
         int? wisdom = null,
         int? charisma = null)
     {
-        _strength = strength;
-        _dexterity = dexterity;
-        _constitution = constitution;
-        _intelligence = intelligence;
-        _wisdom = wisdom;
-        _charisma = charisma;
+        Strength = strength;
+        Dexterity = dexterity;
+        Constitution = constitution;
+        Intelligence = intelligence;
+        Wisdom = wisdom;
+        Charisma = charisma;
     }
 
     public StatBasedArray Applying(
         Func<int?, int?> func)
     {
         return new StatBasedArray(
-            strength: func(_strength),
-            dexterity: func(_dexterity),
-            constitution: func(_constitution),
-            intelligence: func(_intelligence),
-            wisdom: func(_wisdom),
-            charisma: func(_charisma));
+            strength: func(Strength),
+            dexterity: func(Dexterity),
+            constitution: func(Constitution),
+            intelligence: func(Intelligence),
+            wisdom: func(Wisdom),
+            charisma: func(Charisma));
     }
 
     public int? this[Stats stat] =>
         stat switch
         {
-            Stats.Str => _strength,
-            Stats.Dex => _dexterity,
-            Stats.Con => _constitution,
-            Stats.Int => _intelligence,
-            Stats.Wis => _wisdom,
-            Stats.Cha => _charisma,
+            Stats.Str => Strength,
+            Stats.Dex => Dexterity,
+            Stats.Con => Constitution,
+            Stats.Int => Intelligence,
+            Stats.Wis => Wisdom,
+            Stats.Cha => Charisma,
             _ => throw new ArgumentOutOfRangeException(nameof(stat), stat, null)
         };
 }

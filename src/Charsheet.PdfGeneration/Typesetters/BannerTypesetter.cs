@@ -1,4 +1,5 @@
-﻿using Charsheet.CommonModel;
+﻿using System.Reflection;
+using Charsheet.CommonModel;
 using Charsheet.CommonModel.Options;
 using Charsheet.PdfGeneration.DocumentComponents;
 using Charsheet.PdfGeneration.PrintModel;
@@ -31,17 +32,27 @@ public class BannerTypesetter(CellRendererFactory cellRendererFactory)
                 .SetFontSize(10)
                 .SetFontColor(DeviceGray.GRAY));
         }
+
         table.AddCell(namesCell);
 
         Cell imageCell = new LayoutCell()
             .SetBorder(new OutsetBorder(DeviceGray.MakeLighter(DeviceGray.GRAY), 3));
 
-        if (characterData.ImageName != null && File.Exists(characterData.ImageName))
+        if (characterData.ImageName != null)
         {
-            ImageData imageData = ImageDataFactory.Create(characterData.ImageName);
-            imageCell.Add(new Image(imageData)
-                .ScaleToFit(400, 90)
-                .SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string resource = assembly.GetManifestResourceNames().Single(str => str.EndsWith(characterData.ImageName));
+            using Stream? stream = assembly.GetManifestResourceStream(resource);
+            if (stream is not null)
+            {
+                using MemoryStream ms = new();
+                stream.CopyTo(ms);
+
+                ImageData imageData = ImageDataFactory.Create(ms.ToArray());
+                imageCell.Add(new Image(imageData)
+                    .ScaleToFit(400, 90)
+                    .SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            }
         }
         else
         {

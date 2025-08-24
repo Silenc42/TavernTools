@@ -16,24 +16,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Argusz.png">
+    <None Remove="Glorion.jpg" />
+    <EmbeddedResource Include="Glorion.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Vaeltyr.png">
+    </EmbeddedResource>
+    <None Remove="Vaeltyr.png" />
+    <EmbeddedResource Include="Vaeltyr.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Ylfa.png">
+    </EmbeddedResource>
+    <None Remove="Enkai.png" />
+    <EmbeddedResource Include="Enkai.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Glorion.jpg">
+    </EmbeddedResource>
+    <None Remove="Argusz.png" />
+    <EmbeddedResource Include="Argusz.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Zylana.png">
+    </EmbeddedResource>
+    <None Remove="Zylana.png" />
+    <EmbeddedResource Include="Zylana.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Enkai.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

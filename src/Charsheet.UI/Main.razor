@@ -1,15 +1,26 @@
 ﻿@page "/charsheet"
 @using System.Text.Json
+@using System.Text.Json.Serialization
+@using Charsheet.Charbuilder
+@using Charsheet.Charbuilder.CharModel
+@using Charsheet.CommonModel.Options
+@using Charsheet.PdfGeneration.PrintModel
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
+
+@inject PdfGeneration.PdfPrinter Generator
+@inject ToPrintConverter ToPrintConverter
+
 <h1>Charsheet Generator</h1>
 
 <div>
     This tool, in its current rudimentary form, can generate a character sheet from a provided json. Use the provided
     example as a reference.
     <br/>
-    
+
     <EditForm Model="@this">
-        <InputTextArea @bind-Value="_json" class="form-control" rows="20" style="width:100%; overflow:auto; resize: vertical;" />
+        <InputTextArea @bind-Value="_json" class="form-control" rows="20"
+                       style="width:100%; overflow:auto; resize: vertical;"/>
     </EditForm>
 
     <p>
@@ -17,20 +28,70 @@
 
         <button class="btn btn-primary" @onclick="Generate">Generate pdf</button>
     </p>
+
+    <p>Status: @_status</p>
 </div>
 
 @code {
-    private string _json = "start";
+    private string _json = "";
+    private string _status = "awaiting input";
+
+
+    readonly JsonSerializerOptions _jsonOpt = new()
+    {
+        IncludeFields = true,
+        WriteIndented = true,
+        Converters =
+        {
+            new JsonStringEnumConverter()
+        }
+    };
 
     private void LoadGloryonExample()
     {
-        _json = "example";
+
+        CharacterData chosen = _json switch
+        {
+            "Zylana" => ExampleChars.FriendsChars.ExampleDataZylana,
+            "ArguszFarkas" => ExampleChars.MyChars.ExampleDataArguszFarkas,
+            "CatsPaw" => ExampleChars.MyChars.ExampleDataCatsPaw,
+            "Enkai" => ExampleChars.MyChars.ExampleDataEnkai,
+            _ => ExampleChars.PublishableExamples.ExampleDataGloryon,
+        };
+        _json = JsonSerializer.Serialize(chosen, _jsonOpt);
     }
 
-    private void Generate()
+    private async Task Generate()
     {
+        CharacterData characterData;
+        try
+        {
+            characterData = JsonSerializer.Deserialize<CharacterData>(_json, _jsonOpt)!;
+        }
+        catch (Exception e)
+        {
+            _status = $"unable to deserialize input. Check your json.\n{e.Message}";
+            return;
+        }
+
+        CharacterPrintData printData = ToPrintConverter.Convert(characterData);
+
+        string pdf = Generator.GeneratePdfAsBase64(printData, new()
+        {
+            SkillListing = ListingSkillOption.All,
+            DiceRenderStyle = new()
+            {
+                MarkVertices = false,
+                FillInFaces = true,
+                HideCoveredVertices = true
+            }
+        });
+
+        string fileName = $"{printData.Name}.pdf";
+
+        string url = $"data:application/pdf;base64,{pdf}";
+        await Js.InvokeVoidAsync("downloadFileFromUrl", url, fileName);
     }
 
+    [Inject] private IJSRuntime Js { get; set; } = null!;
 }
-
-//JsonSerializer.Serialize(ExampleChars.PublishableExamples.ExampleDataGloryon);

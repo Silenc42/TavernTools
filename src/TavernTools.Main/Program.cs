@@ -1,3 +1,5 @@
+using Charsheet.Charbuilder;
+using Charsheet.PdfGeneration;
 using GuildStashCore;
 using PersistenceSupabase;
 using TavernTools.UI;
@@ -9,6 +11,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services
     .AddGuildStashCore()
+    .AddCharbuilderDependencies()
+    .AddPdfGeneratorDependencies()
     .AddSupabaseDb(builder.Configuration)
     ;
 WebApplication app = builder.Build();

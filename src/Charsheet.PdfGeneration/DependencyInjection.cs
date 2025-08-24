@@ -11,7 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPdfGeneratorDependencies(this IServiceCollection services)
     {
         return services
-                .AddTransient<PdfToFilePrinter>()
+                .AddTransient<PdfPrinter>()
                 .AddTransient<DocumentRootTypesetter>()
                 .AddTransient<BannerTypesetter>()
                 .AddTransient<Column1Typesetter>()
