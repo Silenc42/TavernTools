@@ -9,27 +9,71 @@ namespace Charsheet.GenerationTests;
 
 public class ExampleBuilder
 {
-    private readonly ITestOutputHelper TestOutputHelper;
+    private static readonly CharSheetOptions DefaultOptions = new()
+    {
+        SkillListing = ListingSkillOption.All,
+        DiceRenderStyle = new()
+        {
+            MarkVertices = false,
+            FillInFaces = true,
+            HideCoveredVertices = true
+        }
+    };
+
+    private static readonly CharSheetOptions ProfSkillOnlyOptions = new()
+    {
+        SkillListing = ListingSkillOption.ProficientOnly,
+        DiceRenderStyle = new()
+        {
+            MarkVertices = false,
+            FillInFaces = true,
+            HideCoveredVertices = true
+        }
+    };
+
+    private static readonly List<(CharacterData, CharSheetOptions)> CharsToBuild =
+    [
+        // (ExampleChars.ExampleDataEnkai, ProfSkillOnlyOptions),
+        (ExampleChars.ExampleDataZylana, DefaultOptions)
+    ];
+
+    private readonly string[] _outputDirByPriority =
+    [
+        @"D:\Dropbox\DnD\CharGeneration\",
+        @"C:\Zeug\DnD\GeneratorOutput\",
+        Directory.GetCurrentDirectory() + "\\"
+    ];
+
+    private readonly ITestOutputHelper _testOutputHelper;
 
     public ExampleBuilder(ITestOutputHelper testOutputHelper)
     {
-        TestOutputHelper = testOutputHelper;
+        _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
     public void BuildExampleChars()
     {
-        TestOutputHelper.WriteLine("Determining output directory");
-        string[] outputDirByPriority =
-        [
-            @"D:\Dropbox\DnD\CharGeneration\",
-            @"C:\Zeug\DnD\GeneratorOutput\",
-            Directory.GetCurrentDirectory() + "\\"
-        ];
-        string outputDirectory = outputDirByPriority.First(Directory.Exists);
-        TestOutputHelper.WriteLine($"Result: {outputDirectory}");
+        string outputDirectory = DetermineOutputDir();
 
-        TestOutputHelper.WriteLine("Initializing DI");
+        CharBuilderMain charBuilder = BuildProgram();
+
+        foreach ((CharacterData charData, CharSheetOptions opt) in CharsToBuild)
+        {
+            _testOutputHelper.WriteLine($"Generating pdf for: {charData.Name}");
+            int totalLevel = charData.ClassLevels.Sum(x => x.Level);
+            string filepath = $"{outputDirectory}{charData.Name}-{totalLevel}.pdf";
+            charBuilder.SaveCharToFile(charData, filepath, opt);
+            _testOutputHelper.WriteLine($"Created {filepath}");
+            
+        }
+
+        _testOutputHelper.WriteLine("Done. Closing application");
+    }
+
+    private CharBuilderMain BuildProgram()
+    {
+        _testOutputHelper.WriteLine("Initializing DI");
 
         IServiceCollection services = new ServiceCollection()
                 .AddCharbuilderDependencies()
@@ -39,40 +83,15 @@ public class ExampleBuilder
         ServiceProvider serviceProvider = services.BuildServiceProvider();
 
         CharBuilderMain charBuilder = serviceProvider.GetRequiredService<CharBuilderMain>();
+        return charBuilder;
+    }
 
-// Console.WriteLine("Generating example: Vaelthir");
-//
-// CharacterData vaelthirData = ExampleChars.ExampleDataCatsPaw;
-// string vaelthirFilepath = $"{outputDirectory}Vaelthir.pdf";
-// CharSheetOptions vaelthirOptions = new()
-// {
-//     SkillListing = ListingSkillOption.ProficientOnly,
-//     DiceRenderStyle = new()
-//     {
-//         MarkVertices = false,
-//         FillInFaces = true,
-//         HideCoveredVertices = true
-//     }
-// };
-// charBuilder.SaveCharToFile(vaelthirData, vaelthirFilepath, vaelthirOptions);
+    private string DetermineOutputDir()
+    {
+        _testOutputHelper.WriteLine("Determining output directory");
 
-
-        TestOutputHelper.WriteLine("Generating example: Enkai");
-
-        CharacterData enkaiData = ExampleChars.ExampleDataEnkai;
-        string enkaiFilepath = $"{outputDirectory}Enkai.pdf";
-        CharSheetOptions enkaiOptions = new()
-        {
-            SkillListing = ListingSkillOption.ProficientOnly,
-            DiceRenderStyle = new()
-            {
-                MarkVertices = false,
-                FillInFaces = true,
-                HideCoveredVertices = true
-            }
-        };
-        charBuilder.SaveCharToFile(enkaiData, enkaiFilepath, enkaiOptions);
-
-        TestOutputHelper.WriteLine("Done. Closing application");
+        string outputDirectory = _outputDirByPriority.First(Directory.Exists);
+        _testOutputHelper.WriteLine($"Result: {outputDirectory}");
+        return outputDirectory;
     }
 }

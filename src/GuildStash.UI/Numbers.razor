@@ -1,7 +1,6 @@
 ﻿@page "/numbers"
 @using Contracts.GuildStash
-@rendermode InteractiveServer
-@inject StashRepository repo
+@inject StashRepository Repo
 
 <PageTitle>Numbers</PageTitle>
 
@@ -21,7 +20,7 @@
     private readonly Random _rng = new();
     private int _currentNum;
 
-    private string Stored => string.Join("; ", repo.AllPersistantPoCs().Select(p => p.Name));
+    private string Stored => string.Join("; ", Repo.AllPersistantPoCs().Select(p => p.Name));
 
 
     private void Randomize()
@@ -31,7 +30,7 @@
 
     private void Store()
     {
-        repo.PersistPoC(_currentNum.ToString());
+        Repo.PersistPoC(_currentNum.ToString());
     }
 
 }

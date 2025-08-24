@@ -14,9 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Contracts\Contracts.csproj" />
       <ProjectReference Include="..\GuildStashCore\GuildStashCore.csproj" />
       <ProjectReference Include="..\PersistenceSupabase\PersistenceSupabase.csproj" />
+      <ProjectReference Include="..\TavernTools.UI\TavernTools.UI.csproj" />
     </ItemGroup>
 
 </Project>

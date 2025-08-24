@@ -994,14 +994,14 @@ public static class ExampleChars
             {
                 ClassName = "Artificer",
                 SubClassName = "Artillerist",
-                Level = 3
+                Level = 4
             }
         ],
         ImageName = "Zylana.png",
         PlayerName = "Angelina",
         ProficiencyMod = 2,
-        Stats = new StatBasedArray(strength: 14, dexterity: 18, constitution: 17, intelligence: 19, wisdom: 16,
-            charisma: 12),
+        Stats = new StatBasedArray(strength: 14, dexterity: 18, constitution: 18, intelligence: 20, wisdom: 16,
+            charisma: 12), //ASI:+con+int
         SaveProficiencies = [Stats.Int, Stats.Con],
         SkillProfs =
         [
@@ -1011,11 +1011,12 @@ public static class ExampleChars
             (SkillsInGame.Persuasion, SkillProficiencyLevel.Proficient), // Artisan
         ],
         Ac = 12 + 4, //studded leather
-        Hp = 22 + 9,
+        Hp = 30 + 16,
         HitDice =
         [
             new HitDie(8, 8),
             new HitDie(6, 8),
+            new HitDie(8, 8),
             new HitDie(8, 8),
         ],
         Init = 4,
@@ -1101,7 +1102,7 @@ public static class ExampleChars
             {
                 Title = "Spellcasting",
                 DescriptionLong = "Artificer Spellcasting. See Tasha's Cauldron of Everything.",
-                DescriptionShort = "SpellDC: 14, SpellAttack: +6" +
+                DescriptionShort = "SpellDC: 15, SpellAttack: +7" +
                                    "\nCantrips: Light, Prestidigitation, Firebolt" +
                                    "\nAlways: Shield, Thunderwave" +
                                    "\nCan ritual cast prepared spells"
@@ -1121,7 +1122,7 @@ public static class ExampleChars
                 Title = "Infuse Item",
                 DescriptionLong =
                     "You've gained the ability to imbue mundane items with certain magical infusions, turning those objects into magic items.\nInfusions Known TCE p9\n\nWhen you gain this feature, pick four artificer infusions to learn, choosing from the \"Artificer Infusions\" section at the end of the class's description. You learn additional infusions of your choice when you reach certain levels in this class, as shown in the Infusions Known column of the Artificer table.\n\nWhenever you gain a level in this class, you can replace one of the artificer infusions you learned with a new one.",
-                DescriptionShort = "Infusions Known: 4 (todo)"
+                DescriptionShort = "Infusions Known: 4 (Enhanced Defense, Mind Sharpener, Repeating Shot, Returning Weapon)"
             },
             new ActiveAbility
             {
@@ -1189,11 +1190,11 @@ public static class ExampleChars
             new PassiveAbility
             {
                 Title = "Language and Tool Proficiencies",
-                DescriptionShort = "Common, Celestial, +1" +
+                DescriptionShort = "Common, Celestial, Orkish" +
                                    "\nTools: Thief, Tinker, Woodcarver, Leatherworker, Smith, Weaver, Alchemist, Carpenter",
                 DescriptionLong =
                     "Tools: : Thieves' tools, Tinker's tools, Woodcarver's tools, Leatherworker's tools, Smith's tools, Weaver's tools, Alchemist's tools, Carpenter's tools" +
-                    "\nLanguages: Common, Celestial, +1",
+                    "\nLanguages: Common, Celestial, Orkish",
                 IsIntegratedInCalculations = false
             },
         ],
@@ -1202,19 +1203,28 @@ public static class ExampleChars
             new Attack
             {
                 Name = "Revolver",
-                Damage = "1d8+4p",
-                AtkBonus = 6,
+                Damage = "1d8+5p",
+                AtkBonus = 7,
                 Notes = "60/240ft, loud(500), reload 6"
             },
             new Attack
             {
+                Name = "Dagger",
+                Damage = "1d4+5p",
+                AtkBonus = 7,
+                Notes = "thrown 20/60ft"
+            },
+            new Attack
+            {
                 Name = "Firebolt",
-                AtkBonus = 6,
+                AtkBonus = 7,
                 Damage = "1d10 fire",
                 Notes = "120ft"
             }
         ],
-        BackgroundStory = "Zylana. Alter 42, Größer 5,5 ft (ca 1,70m), Haare schwarz, Augen strahlend blau",
+        Inventory = ["Die Handschuhe"],
+        BackgroundStory = "Zylana. Alter 42, Größer 5,5 ft (ca 1,70m), Haare schwarz, Augen strahlend blau" +
+                          "\nHat das Herstellen mit fast allen tools gelernt. Ihr meister hies Gandalf",
     };
 
     public static CharacterData ExampleDataEnkai => new()
