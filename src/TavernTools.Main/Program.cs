@@ -6,6 +6,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
 builder.Services
     .AddGuildStashCore()
     .AddSupabaseDb(builder.Configuration)
@@ -17,8 +18,8 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<MainApp>()
-    .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(RazorDependencies.UiDependencies)
+    .AddInteractiveServerRenderMode()
     ;
 
 app.Run();

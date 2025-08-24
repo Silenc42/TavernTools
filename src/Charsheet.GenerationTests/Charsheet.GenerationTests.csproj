@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Charsheet.Charbuilder\Charsheet.Charbuilder.csproj" />
+    <ProjectReference Include="..\Charsheet.ExampleChars\Charsheet.ExampleChars.csproj" />
   </ItemGroup>
 
   <ItemGroup>

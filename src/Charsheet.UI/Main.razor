@@ -1,0 +1,36 @@
+﻿@page "/charsheet"
+@using System.Text.Json
+@using Microsoft.AspNetCore.Components.Forms
+<h1>Charsheet Generator</h1>
+
+<div>
+    This tool, in its current rudimentary form, can generate a character sheet from a provided json. Use the provided
+    example as a reference.
+    <br/>
+    
+    <EditForm Model="@this">
+        <InputTextArea @bind-Value="_json" class="form-control" rows="20" style="width:100%; overflow:auto; resize: vertical;" />
+    </EditForm>
+
+    <p>
+        <button class="btn btn-primary" @onclick="LoadGloryonExample">Load Example</button>
+
+        <button class="btn btn-primary" @onclick="Generate">Generate pdf</button>
+    </p>
+</div>
+
+@code {
+    private string _json = "start";
+
+    private void LoadGloryonExample()
+    {
+        _json = "example";
+    }
+
+    private void Generate()
+    {
+    }
+
+}
+
+//JsonSerializer.Serialize(ExampleChars.PublishableExamples.ExampleDataGloryon);

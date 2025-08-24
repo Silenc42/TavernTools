@@ -31,11 +31,6 @@ public class ExampleBuilder
         }
     };
 
-    private static readonly List<(CharacterData, CharSheetOptions)> CharsToBuild =
-    [
-        // (ExampleChars.ExampleDataEnkai, ProfSkillOnlyOptions),
-        (ExampleChars.ExampleDataZylana, DefaultOptions)
-    ];
 
     private readonly string[] _outputDirByPriority =
     [
@@ -52,20 +47,47 @@ public class ExampleBuilder
     }
 
     [Fact]
-    public void BuildExampleChars()
+    public void SaveExampleChar()
     {
+        CharacterData charData = ExampleChars.FriendsChars.ExampleDataZylana;
+        CharSheetOptions opt = DefaultOptions;
+
         string outputDirectory = DetermineOutputDir();
 
         CharBuilderMain charBuilder = BuildProgram();
 
-        foreach ((CharacterData charData, CharSheetOptions opt) in CharsToBuild)
+        _testOutputHelper.WriteLine($"Generating pdf for: {charData.Name}");
+        int totalLevel = charData.ClassLevels.Sum(x => x.Level);
+        string filepath = $"{outputDirectory}{charData.Name}-{totalLevel}.pdf";
+        charBuilder.SaveCharToFile(charData, filepath, opt);
+        _testOutputHelper.WriteLine($"Created {filepath}");
+
+
+        _testOutputHelper.WriteLine("Done. Closing application");
+    }
+
+    [Fact]
+    public void BuildAllExamples()
+    {
+        List<(CharacterData, CharSheetOptions)> charsToBuild =
+        [
+            (ExampleChars.MyChars.ExampleDataEnkai, ProfSkillOnlyOptions),
+            (ExampleChars.FriendsChars.ExampleDataZylana, DefaultOptions),
+            (ExampleChars.PublishableExamples.ExampleDataGloryon, DefaultOptions),
+            (ExampleChars.PublishableExamples.ExampleDataGloryon, ProfSkillOnlyOptions),
+        ];
+
+        string outputDirectory = DetermineOutputDir();
+
+        CharBuilderMain charBuilder = BuildProgram();
+
+        foreach ((CharacterData charData, CharSheetOptions opt) in charsToBuild)
         {
             _testOutputHelper.WriteLine($"Generating pdf for: {charData.Name}");
             int totalLevel = charData.ClassLevels.Sum(x => x.Level);
             string filepath = $"{outputDirectory}{charData.Name}-{totalLevel}.pdf";
             charBuilder.SaveCharToFile(charData, filepath, opt);
             _testOutputHelper.WriteLine($"Created {filepath}");
-            
         }
 
         _testOutputHelper.WriteLine("Done. Closing application");

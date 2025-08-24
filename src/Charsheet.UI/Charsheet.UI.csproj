@@ -16,17 +16,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Charsheet.UI\Charsheet.UI.csproj" />
-      <ProjectReference Include="..\GuildStash.UI\GuildStash.UI.csproj" />
+      <Folder Include="wwwroot\" />
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="MainLayout.razor.css" />
+      <ProjectReference Include="..\Charsheet.ExampleChars\Charsheet.ExampleChars.csproj" />
     </ItemGroup>
 
 </Project>
