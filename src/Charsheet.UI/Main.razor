@@ -23,6 +23,10 @@
                        style="width:100%; overflow:auto; resize: vertical;"/>
     </EditForm>
 
+    <InputRadioGroup @bind-Value="_selectedOption">
+        <InputRadio Value="ListingSkillOption.All" /> All skills
+        <InputRadio Value="ListingSkillOption.ProficientOnly" /> Proficient skills only
+    </InputRadioGroup>
     <p>
         <button class="btn btn-primary" @onclick="LoadGloryonExample">Load Example</button>
 
@@ -36,6 +40,7 @@
     private string _json = "";
     private string _status = "awaiting input";
 
+    private ListingSkillOption _selectedOption = ListingSkillOption.All;
 
     readonly JsonSerializerOptions _jsonOpt = new()
     {
@@ -78,7 +83,7 @@
 
         string pdf = Generator.GeneratePdfAsBase64(printData, new()
         {
-            SkillListing = ListingSkillOption.All,
+            SkillListing = _selectedOption,
             DiceRenderStyle = new()
             {
                 MarkVertices = false,
