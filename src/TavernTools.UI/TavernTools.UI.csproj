@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Charsheet.UI\Charsheet.UI.csproj" />
+      <ProjectReference Include="..\CraftingPrices.UI\CraftingPrices.UI.csproj" />
       <ProjectReference Include="..\GuildStash.UI\GuildStash.UI.csproj" />
     </ItemGroup>
 
