@@ -632,7 +632,8 @@ public static class MyChars
             {
                 Title = "Cantrips",
                 DescriptionLong = "You know two Warlock cantrips of your choice: Ferocious Strike, Eldritch Blast" +
-                                  "\nYou know four Sorcerer cantrips of your choice: Booming Blade, Mage Hand, Control Flames, Mending" // Soften descent
+                                  "\nYou know four Sorcerer cantrips of your choice: Booming Blade, Mage Hand, Control Flames, Mending", // Soften descent
+                DescriptionShort = "Mage Hand, Control Flames, Mending"
             },
             new ActiveAbility
             {
@@ -713,7 +714,12 @@ public static class MyChars
                     "\n\nCreating Spell Slots. As a Bonus Action, you can transform unexpended Sorcery Points into one spell slot. The Creating Spell Slots table shows the cost of creating a spell slot of a given level, and it lists the minimum Sorcerer level you must be to create a slot. You can create a spell slot no higher than level 5." +
                     "\n\nAny spell slot you create with this feature vanishes when you finish a Long Rest." +
                     "\n\nCreating Spell Slots lvl1:2sp, lvl2:3sp, lvl3:5sp, lvl4:6sp, lvl5:7sp",
-                DescriptionShort = "Lvl x -> xSP; 2SP -> Lvl1, 3SP -> Lvl2"
+                DescriptionShort = "Lvl x -> xSP; 2SP -> Lvl1, 3SP -> Lvl2",
+                Charges = new AbilityCharges
+                {
+                    MaxCharges = 3,
+                    Recharges = AbilityRechargeCondition.Longrest
+                }
             },
             new ActiveAbility
             {
@@ -769,7 +775,25 @@ public static class MyChars
                     "\n• You deal one extra die of damage when you hit a target using a prosthesis’ Blast, Launch, or Melee property."
             }
         ],
-        AbilitiesFromItems = [],
+        AbilitiesFromItems =
+        [
+            new PassiveAbility
+            {
+                IsIntegratedInCalculations = false,
+                Title = "Firecracker Swings",
+                DescriptionLong =
+                    "You can use unpredictable but powerful fireworks to enhance your punches. The first time each turn that you deal damage with an unarmed strike using this prosthesis, the attack deals an extra 1d6 fire damage. If you roll a 6 on the damage die, you roll the damage die again and add it to the total damage. This continues until you roll something other than a 6 on the die.",
+                DescriptionShort = "+1d6 fire damage; on 6 another! repeats"
+            },
+            new PassiveAbility
+            {
+                IsIntegratedInCalculations = false,
+                Title = "Brutal Bash",
+                DescriptionLong =
+                    "Whenever you make an unarmed strike using this magic prosthesis, you score a critical hit on a roll of 19 or 20. Additionally, whenever you score a critical hit against a Huge or smaller creature, it’s pushed 15 feet directly away from you. If the creature collides with something (such as a wall) before reaching the end of this push, it takes an extra 1d8 bludgeoning damage as part of the attack.",
+                DescriptionShort = "crit 19-20 -> 15tf. knockback, crash: +1d8b"
+            }
+        ],
         AbilitiesFromOther =
         [
             new PassiveAbility
@@ -786,31 +810,64 @@ public static class MyChars
         [
             new Attack
             {
-                Name = "Ferocious arm",
-                Damage = "1d4+1d6+3",
+                Name = "Hanabi Brawler",
+                Damage = "2d6+3\n+1d6 fire",
                 AtkBonus = 5,
                 Notes = "bl,nec,rad,psy" +
-                        "\n10ft. melee or 30ft. ranged"
+                        "\n10ft. melee, 19-20"
+            },
+            new Attack
+            {
+                Name = "Eldritch Blast",
+                Damage = "1d10",
+                AtkBonus = 5,
+                Notes = "force, 120ft"
+            },
+            new Attack
+            {
+                Name = "Ferocious strike",
+                Damage = "+1d4"
+            },
+            new Attack
+            {
+                Name = "Booming Blade",
+                Damage = " delayed 1d8",
+                Notes = "thunder"
             }
         ],
         Equipments =
         [
             new Equipment
             {
-                Name = "Combat Arm",
-                Notes = "Melee (1d6), Launch (1d6, 30ft.), Hookshot (20ft.)"
+                Name = "Hanabi Brawler",
+                Notes = "Melee (1d6 b, Pugilist, Shockwave superior strike);\n+ 1d6 fire dmg, roll again on 6;\n19-20 crit, knockback 15ft on crit, 1d8 b on crash"
             },
             new Equipment
             {
-                Name = "Basic Arm",
+                Name = "Basic Prosthesis: Arm",
                 Notes = "Integrated (shield)"
+            },
+            new Equipment
+            {
+                Name = "Basic Prosthesis: Leg",
+                Notes = "Integrated (storage), 35 inch cubed"
             }
         ],
+        Consumables =
+        [
+            new Consumable
+            {
+                Name = "Potion of Healing",
+                Amount = 2,
+                Notes = "2d4+2"
+            }
+        ],
+        Gold = 850 - 500 - 33,
         BackgroundStory = "Abstract" +
-                          "\nBorn Ankhai, a skilled caravaneer destined for peace, his life was shattered when a temporal beast—a remnant of a forgotten battle—tore through time to find him. Gravely wounded and left limbless, he was saved by the enigmatic sphinx Ainokhet the Unwinding, who glimpsed the echo of his past life: Zahutek the Blazing Fang, a sorcerer-warrior blessed by a phoenix and once the beast’s bane. Guided east by prophecy, Ankhai learned to forge explosive prostheses at the Hanabi Engineering College, earning the nickname Enkai, the Sea of Flame, for the fiery brilliance of his inventions." +
-                          "\n\nTo reach the fabled Loot Tavern, where master crafters and monster hunters awaited, Enkai ventured into Hell to steal the rare Teleport-ale. He escaped by detonating his own limbs, hijacking a devil’s summoning circle to return topside, where he joined adventurers in a toast that warped them all to the Tavern. Now, Enkai rebuilds himself stronger than ever—drawing power from a life he no longer remembers, burning brighter with every reinvention." +
+                          "\nBorn Ankhai, a skilled caravaneer destined for peace, his life was shattered when a temporal beast - a remnant of a forgotten battle - tore through time to find him. Gravely wounded and left limbless, he was saved by the enigmatic sphinx Ainokhet the Unwinding, who glimpsed the echo of his past life: Zahutek the Blazing Fang, a sorcerer-warrior blessed by a phoenix and once the beast’s bane. Guided east by prophecy, Ankhai learned to forge explosive prostheses at the Hanabi Engineering College, earning the nickname Enkai, the Sea of Flame, for the fiery brilliance of his inventions." +
+                          "\n\nTo reach the fabled Loot Tavern, where master crafters and monster hunters awaited, Enkai ventured into Hell to steal the rare Teleport-ale. He escaped by detonating his own limbs, hijacking a devil’s summoning circle to return topside, where he joined adventurers in a toast that warped them all to the Tavern. Now, Enkai rebuilds himself stronger than ever - drawing power from a life he no longer remembers, burning brighter with every reinvention." +
                           "\n\n\n" +
-                          "Full" +
-                          "\nEnkai, the Sea of Flame\n\nBorn Ankhai. Reforged in fire. Remembered in riddles.\n\nHe was born Ankhai, and he was meant to live a life of peace.\n\nHis soul had earned it. In a past age, in a life now sealed behind lifetimes, he had been Zahutek the Blazing Fang—a warrior-sorcerer who danced with flame and fate, blessed by a dying phoenix whose essence nested in his spirit. Zahutek’s final battle had been waged not for glory, but for time itself. A temporal beast, a paradox predator, had slipped through the cracks of causality. Zahutek banished it, shattering its form across millennia—and then scattered his own soul into the slow current of time, destined for a quiet reincarnation.\n\nThat soul awoke in Ankhai, a caravaneer of great charm, competence, and calm. He was a master organizer, a born leader who navigated sandstorms and trade politics with equal ease. He laughed easily, fought rarely, and lived well.\n\nBut peace is brittle when monsters remember you.\n\nIt came one night under a sky so clear it should’ve been an omen. The air rippled. A seam in time split open like rotten fruit, and the temporal beast—or perhaps something like it, drawn to the echo of its old enemy—emerged.\n\nIt remembered Zahutek, even if Ankhai did not.\n\nThe battle was chaos. The beast struck in flashes—past and future folding into every blow. Ankhai fought back. He remembers it, even now. He struck the thing. He knows he did. But it took from him in return. One arm. Then a leg. Then the other arm. His blood soaked the sands, his body broken.\n\nTime, impossibly, flowed on.\n\nHe should have died. Instead, she found him.\n\nShe came with no footsteps and eyes like distant horizons: Ainokhet the Unwinding, a sphinx older than secrets. She did not marvel at his wounds, nor mourn his pain. She peered through the cracks of his spirit and saw the blaze beneath—the echo of Zahutek, banked like coals beneath ash.\n\nShe healed him, but not completely. The damage the beast had done existed across timelines—beyond her ability to rewind. But she left him a riddle and a direction:\n\n    “You are not whole. But you are not finished. Seek the Yokai. Forge anew.”\n\nHe crossed continents. Past whispering tombs and thunder-laced jungles, into the far eastern lands known as the Yokai Realms. There, amid fireworks and sacred steel, stood the Hanabi Engineering College—a place where science flirted with sorcery. He apprenticed under Bombuku, an eccentric genius with fire in his eyes and blueprints in his tea leaves.\n\nAnkhai rebuilt himself.\n\nNot as he was, but as he would be. His new limbs—arcane prostheses—burned with innovation. One housed a combustion core; another released concussive shockwaves with every strike. Fire and thunder became his weapons. Explosions followed his movements like punctuation. The students, hearing his name through thick accents and louder fireworks, began calling him Enkai.\n\n    “The Sea of Flame.”\n\nHe kept it. It fit.\n\nBombuku saw more in him. \"To master creation,\" he said, \"you must master the world. Go to the Loot Tavern. There, you will find L’Arsene Upin, whose hands teach metal to dance, and Heliana, the legendary huntress who teaches you to kill the monsters you must one day build from.\"\n\nBut the Loot Tavern could not be reached by map. It floated between worlds, anchored only by rumor—and reachable only by a substance as rare as mercy in Hell:\n\n    Teleport-ale.\n\nOnce more, Ainokhet came to him—this time in a dream of smoke and riddles.\n\n    “What opens doors but pours like truth? What burns like lies but flows like proof?”\n\nHell. Of course it was Hell.\n\nEnkai descended.\n\nHe bluffed, he bartered, he brawled. He solved the contracts of devils and the bureaucracy of soul-deep registrars. Eventually, he got what he came for: a six-pack of Teleport-ale, still cold, somehow.\n\nThey caught him as he was leaving. A summoning had begun—someone on the surface was calling a devil through a half-open portal. Enkai was to be the sacrifice.\n\nBut he had other plans.\n\nHe ripped off his own prostheses, primed their cores, and used them as bombs. The explosion stalled the summoning—and in the chaos, Enkai leapt through the portal instead of the devil.\n\nOn the other side: chaos. The summoner had been defeated by a band of adventurers, bruised and wild-eyed. Enkai, still smoking, shared his prize. One ale each. Six hands raised.\n\nA toast. A shimmer. A crash of light.\n\nAnd suddenly—they stood at the door of the Loot Tavern.\n\nNow, Enkai builds again.\n\nHe is crafting new limbs from the ground up—smarter, faster, more beautiful. His sorcery burns brighter than ever, fed by a past life he does not remember but which burns in his blood all the same. He trains under L’Arsene, learning to shape the impossible. He tracks monsters alongside Heliana, gathering the rarest of components. He studies, he tinkers, he reinvents.\n\n    Another rebirth. Another improvement. Another self-made man.\n\nHe does not remember the name Zahutek. He does not need to.\n\nHe is Enkai.\nAnd this time, he is ready.",
+                          "Full:" +
+                          "Enkai, the Sea of Flame\n\nBorn Ankhai. Reforged in fire. Remembered in riddles.\n\nHe was born Ankhai, and he was meant to live a life of peace. His soul had earned it. In a past age, in a life now sealed behind lifetimes, he had been Zahutek the Blazing Fang - a warrior-sorcerer who danced with flame and fate, blessed by a dying phoenix whose essence nested in his spirit. Zahutek’s final battle had been waged not for glory, but for time itself. A temporal beast, a paradox predator, had slipped through the cracks of causality. Zahutek banished it, shattering its form across millennia - and then scattered his own soul into the slow current of time, destined for a quiet reincarnation.\nThat soul awoke in Ankhai, a caravaneer of great charm, competence, and calm. He was a master organizer, a born leader who navigated sandstorms and trade politics with equal ease. He laughed easily, fought rarely, and lived well.\n\nBut peace is brittle when monsters hold grudges.\n\nIt came one night under a sky so clear it should’ve been an omen. The air rippled. A seam in time split open like rotten fruit, and the temporal beast - or perhaps something like it, drawn to the echo of its old enemy - emerged. It remembered Zahutek, even if Ankhai did not. The battle was a slaughter. The beast struck in flashes - past and future folding into every blow. Ankhai fought back. He remembers it, even now. He struck the thing. He knows he did. But it took from him in return. An arm. Then a leg. Then the other arm. His blood soaked the sands, his body broken.\n\nTime, impossibly, flowed on in small circles.\n\nHe should have died. Instead, she found him. She came with no footsteps and eyes like distant horizons: Ainokhet the Unwinding - Sunny to her friends - a sphinx older than secrets. She did not marvel at his wounds, nor mourn his pain. She peered through the cracks of his spirit and saw the blaze beneath - the echo of Zahutek, banked like coals beneath ash.\nShe healed him as best she could. The damage the beast had done existed across timelines - beyond her ability to rewind. But she left him a riddle and a direction: \"You are not whole. But you are not finished. Seek the Yokai. Forge anew.\"\nHe crossed continents. Past whispering tombs and thunder-laced jungles, into the far eastern lands known as the Yokai Realms. There, amid fireworks and sacred steel, stood the Hanabi Engineering College - a place where science flirted with sorcery. He apprenticed under Bombuku, an eccentric genius with fire in his eyes and blueprints in his tea leaves.\n\nAnkhai rebuilt himself.\n\nNot as he was, but as he would be. His new limbs - arcane prostheses - burned with innovation. One housed a combustion core; another released concussive shockwaves with every strike. Fire and thunder became his weapons. Explosions followed his movements like punctuation. The students, hearing his name through thick accents and louder fireworks, began calling him Enkai - The Sea of Flame. He kept it. It fit him well.\nBombuku saw more in him. \"To master creation,\" he said, \"you must master the world. Go to the Loot Tavern. There, you will find L’Arsene Upin, whose hands teach metal to dance, and Heliana, the legendary huntress who teaches you to kill the monsters you must one day build from.\"\nBut the Loot Tavern could not be reached by map. It floated between worlds, anchored only by rumor - and reachable only by a drink as rare as mercy in Hell: Teleport-ale.\n\nOnce more, Sunny came to him - this time in a dream of smoke and riddles. \"What opens doors but pours like truth? What burns like lies but flows like proof?\" - Hell. Of course it was Hell.\nEnkai descended. He bluffed, he bartered, he brawled. He solved the contracts of devils and the bureaucracy of soul-deep registrars. Eventually, he got what he came for: a six-pack of Teleport-ale, still cold, somehow.\nThey caught him as he was leaving. A summoning had begun - someone on the surface was calling a devil through a half-open portal.\n\nEnkai was to be the sacrifice. But he had other plans.\n\nHe ripped off his own prostheses, primed their cores, and used them as bombs. The explosion stalled the summoning - and in the chaos, Enkai leapt through the portal instead of the devil.\nOn the other side: chaos. The summoner had been defeated by a band of adventurers, bruised and wild-eyed. Enkai, still smoking, shared his prize. One ale each. Six hands raised.\nA toast. A drink. A step through a tavern door. And suddenly - they stood at the door of the Loot Tavern.\n\nNow, Enkai builds again.\n\nHe is crafting new limbs from the ground up - smarter, faster, more beautiful. His sorcery burns brighter than ever, fed by a past life he does not remember but which burns in his blood all the same. He trains under L’Arsene, learning to shape the impossible. He tracks monsters as tought by Heliana, gathering the rarest of components. He studies, he tinkers, he reinvents. His new friendships forged in battle as well as the anvil: The angelic Zylana, the enigmatic Magnus and the shroomy Grog are just a few.\n\nAnother rebirth. Another improvement. Another self-made man. He does not remember the name Zahutek. He does not need to.\n\nHe is Enkai.\nAnd this time, he is ready."
     };
 }

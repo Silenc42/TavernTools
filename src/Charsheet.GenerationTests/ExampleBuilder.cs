@@ -49,8 +49,9 @@ public class ExampleBuilder
     [Fact]
     public void SaveExampleChar()
     {
-        CharacterData charData = ExampleChars.FriendsChars.ExampleDataZylana;
-        CharSheetOptions opt = DefaultOptions;
+        CharacterData charData = ExampleChars.MyChars.ExampleDataEnkai;
+        // CharSheetOptions opt = DefaultOptions;
+        CharSheetOptions opt = ProfSkillOnlyOptions;
 
         string outputDirectory = DetermineOutputDir();
 
